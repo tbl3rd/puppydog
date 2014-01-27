@@ -1,8 +1,7 @@
-#include <opencv2/imgproc/imgproc.hpp>
-
 #include <iostream>
 
 #include <background.hpp>
+#include <utilities.hpp>
 #include <video.hpp>
 
 
@@ -15,31 +14,6 @@ static void showUsage(const char *av0)
               << "Where: <camera> is a camera number or video file name."
               << std::endl << std::endl
               << "Example: " << av0 << " 0" << std::endl << std::endl;
-}
-
-
-// Create a new unobscured named window for image.
-// Reset windows layout with when reset is not 0.
-//
-// The 23 term works around how MacOSX decorates windows.
-//
-static void makeWindow(const char *window, const cv::Size &size, int reset = 0)
-{
-    static int across = 1;
-    static int count, moveX, moveY, maxY = 0;
-    if (reset) {
-        across = reset;
-        count = moveX = moveY = maxY = 0;
-    }
-    if (count % across == 0) {
-        moveY += maxY + 23;
-        maxY = moveX = 0;
-    }
-    ++count;
-    cv::namedWindow(window, cv::WINDOW_AUTOSIZE);
-    cv::moveWindow(window, moveX, moveY);
-    moveX += size.width;
-    maxY = std::max(maxY, size.height);
 }
 
 
