@@ -7,11 +7,13 @@
 
 static void showUsage(const char *av0)
 {
-    std::cerr << av0 << ": Demo video background removal."
+    std::cerr << av0 << ": Remove background from a video."
               << std::endl << std::endl
-              << "Usage: " << av0 << " <camera>" << std::endl
+              << "Usage: " << av0 << " <camera> <output>" << std::endl
               << std::endl
               << "Where: <camera> is a camera number or video file name."
+              << std::endl
+              << "       <output> is the output file name."
               << std::endl << std::endl
               << "Example: " << av0 << " 0" << std::endl << std::endl;
 }
