@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include <background.hpp>
+#include <classifier.hpp>
 #include <utilities.hpp>
 #include <video.hpp>
 
@@ -19,12 +20,30 @@ static void showUsage(const char *av0)
 }
 
 
+// Return regions of interest detected by classifier in gray.
+//
+static void detectCascade(cv::CascadeClassifier &classifier,
+                          const cv::Mat &gray,
+                          std::vector<cv::Rect> &regions)
+{
+    static double scaleFactor = 1.1;
+    static const int minNeighbors = 2;
+    static const cv::Size minSize(30, 30);
+    static const cv::Size maxSize;
+    classifier.detectMultiScale(gray, regions, scaleFactor, minNeighbors,
+                                cv::CASCADE_SCALE_IMAGE, minSize, maxSize);
+}
+
+
+
 int main(int ac, const char *av[])
 {
-    if (ac == 3) {
+    if (ac == 4) {
         std::cout << av[0] << ": Camera is " << av[1] << std::endl;
         std::cout << av[0] << ": Output is " << av[2] << std::endl;
-        CvVideoCapture camera = openVideo(av[1]);
+        std::cout << av[0] << ": Training is " << av[3] << std::endl;
+        VideoSource camera = openVideo(av[1]);
+        Classifier classifier(av[3]);
         if (camera.isOpened()) {
             const int codec = camera.getFourCcCodec();
             const double fps = camera.getFramesPerSecond();

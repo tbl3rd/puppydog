@@ -30,4 +30,15 @@ static void makeWindow(const char *window, const cv::Size &size, int reset = 0)
 }
 
 
+// Draw rectangle r in color c on image i.
+//
+static void drawRectangle(cv::Mat &i, const cv::Scalar &c, const cv::Rect &r)
+{
+    static const int thickness = 4;
+    static const int lineKind = 8;
+    static const int shift = 0;
+    cv::rectangle(i, r, c, thickness, lineKind, shift);
+}
+
+
 #endif // #ifndef INCLUDE_PUPPYDOG_UTILITIES_HPP
